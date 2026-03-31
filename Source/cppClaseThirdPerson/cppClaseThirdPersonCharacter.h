@@ -48,7 +48,10 @@ protected:
 	/** Mouse Look Input Action */
 	UPROPERTY(EditAnywhere, Category="Input")
 	UInputAction* MouseLookAction;
-
+	
+	/** Interact Input Action */
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* InteractAction;
 public:
 
 	/** Constructor */
@@ -86,6 +89,9 @@ public:
 	virtual void DoJumpEnd();
 	
 	/** Custom */
+	UFUNCTION(BlueprintImplementableEvent, Category="Input")
+	void Interact();
+	
 	UFUNCTION(BlueprintCallable, Category="Custom")
 	void MostrarMensaje();
 

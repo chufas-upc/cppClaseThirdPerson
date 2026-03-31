@@ -67,7 +67,7 @@ void AcppClaseThirdPersonCharacter::SetupPlayerInputComponent(UInputComponent* P
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AcppClaseThirdPersonCharacter::Look);
 		
 		//Interacting
-		//EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &AcppClaseThirdPersonCharacter::Interact);
+		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &AcppClaseThirdPersonCharacter::Interact);
 	}
 	else
 	{
@@ -145,4 +145,4 @@ void AcppClaseThirdPersonCharacter::MostrarMensaje()
 			FColor::Orange,
 			"Ola");
 	}
-}
+};
