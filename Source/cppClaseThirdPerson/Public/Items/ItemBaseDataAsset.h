@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class CPPCLASETHIRDPERSON_API UItemBaseDataAsset : public UDataAsset
+class CPPCLASETHIRDPERSON_API UItemBaseDataAsset : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 	
