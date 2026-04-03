@@ -5,8 +5,6 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "steam/steam_api.h"
 
-APawn* Player;
-
 // Sets default values
 AElActor::AElActor()
 {

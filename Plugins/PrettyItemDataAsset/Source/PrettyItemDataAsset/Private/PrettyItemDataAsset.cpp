@@ -42,6 +42,8 @@ void FPrettyItemDataAssetModule::StartupModule()
 	StyleSet->SetContentRoot(PluginDir / TEXT("Resources/Icons"));
 	
 	RegisterItemDataAssetIcon("ItemBaseDataAsset", "ItemBase.png");
+	RegisterItemDataAssetIcon("HandHeldToolDataAsset", "ToolBase.png");
+	RegisterItemDataAssetIcon("EquipableItemDataAsset", "Armor.png");
 
 	FSlateStyleRegistry::RegisterSlateStyle(*StyleSet);
 }

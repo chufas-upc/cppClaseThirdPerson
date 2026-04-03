@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ItemCategory.h"
 #include "Engine/DataAsset.h"
 #include "ItemBaseDataAsset.generated.h"
 
@@ -10,13 +11,17 @@
  * 
  */
 UCLASS()
-class CPPCLASETHIRDPERSON_API UItemBaseDataAsset : public UDataAsset
+class CPPCLASETHIRDPERSON_API UItemBaseDataAsset : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 	
 public:
+	UItemBaseDataAsset();
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Item")
 	FText ItemName ;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Item")
+	EItemCategory Category;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Item")
 	FText Description;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Item")
