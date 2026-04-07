@@ -27,5 +27,5 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Item")
 	int MaxStack = 99;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Item")
-	UTexture2D* Sprite;
+	TObjectPtr<UTexture2D> Sprite;
 };

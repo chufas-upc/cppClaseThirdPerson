@@ -7,7 +7,8 @@
 #include "EquipableItemDataAsset.generated.h"
 
 /**
- * 
+ * Un tipo de item que el jugador puede equiparse \n
+ * Nota: Es probable que no se utilize, pero de hacerlo, podria tener stats y proveer de efectos \n
  */
 UCLASS()
 class CPPCLASETHIRDPERSON_API UEquipableItemDataAsset : public UItemBaseDataAsset

@@ -9,7 +9,7 @@ struct FItemVisuals
 	GENERATED_BODY()
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Item/Visuals")
-	UStaticMesh* Mesh;
+	TObjectPtr<UStaticMesh> Mesh;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Item/Visuals")
-	UMaterial* Material;
+	TObjectPtr<UMaterial> Material;
 };

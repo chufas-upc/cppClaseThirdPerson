@@ -5,11 +5,11 @@
 #include "CoreMinimal.h"
 #include "ItemBaseDataAsset.h"
 #include "ItemVisuals.h"
-#include "WeaponBehaviour/WeaponBehaviour.h"
+#include "WeaponBehaviour/ToolBehaviour.h"
 #include "HandHeldToolDataAsset.generated.h"
 
 /**
- *	ola
+ *	HandHeldToolDataAsset esta pensado para items que se puedan sostener en la mano del jugador.
  */
 UCLASS()
 class CPPCLASETHIRDPERSON_API UHandHeldToolDataAsset : public UItemBaseDataAsset
@@ -19,14 +19,15 @@ class CPPCLASETHIRDPERSON_API UHandHeldToolDataAsset : public UItemBaseDataAsset
 public:
 	UHandHeldToolDataAsset();
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Item/HandHeld")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Item|Tool")
 	FItemVisuals HandMesh;
 	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, Category="Item/HandHeld")
-	UWeaponBehaviour* Behaviour;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Item|Tool")
+	float BaseDamage;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Item/HandHeld")
-	float Damage;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Item/HandHeld")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Item|Tool")
 	FString Anims;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, Category="Item|Tool")
+	TObjectPtr<UToolBehaviour> Behaviour;
 };

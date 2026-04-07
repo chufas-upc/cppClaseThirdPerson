@@ -7,7 +7,7 @@
 #include "ArmorItemDataAsset.generated.h"
 
 /**
- * 
+ *	Un tipo de UEquipableItemDataAsset, pero que podria tener una Mesh.
  */
 UCLASS()
 class CPPCLASETHIRDPERSON_API UArmorItemDataAsset : public UEquipableItemDataAsset
