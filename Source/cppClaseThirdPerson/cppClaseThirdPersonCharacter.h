@@ -89,7 +89,7 @@ public:
 	virtual void DoJumpEnd();
 	
 	/** Custom */
-	UFUNCTION(BlueprintImplementableEvent, Category="Input")
+	UFUNCTION(BlueprintCallable, Category="Input")
 	void Interact();
 	
 	UFUNCTION(BlueprintCallable, Category="Custom")

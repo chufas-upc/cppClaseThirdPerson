@@ -11,6 +11,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "cppClaseThirdPerson.h"
+#include "Entrega2/Interactable.h"
 
 AcppClaseThirdPersonCharacter::AcppClaseThirdPersonCharacter()
 {
@@ -133,6 +134,35 @@ void AcppClaseThirdPersonCharacter::DoJumpEnd()
 {
 	// signal the character to stop jumping
 	StopJumping();
+}
+
+void AcppClaseThirdPersonCharacter::Interact()
+{
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Interact"));
+	}
+	
+	TArray<AActor*> ActorsOverlapping;
+	GetOverlappingActors(ActorsOverlapping, AActor::StaticClass());
+	
+	if (ActorsOverlapping.Num() > 0)
+	{
+		AActor* ActorTarget = ActorsOverlapping[0];
+		
+		if (ActorTarget && ActorTarget->GetClass()->ImplementsInterface(UInteractable::StaticClass())) 
+		{
+			IInteractable::Execute_Interact(ActorTarget, this);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Log, TEXT("El actor no implementa la interfaz o es nulo"));
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No hay actores solapados"));
+	}
 }
 
 void AcppClaseThirdPersonCharacter::MostrarMensaje()

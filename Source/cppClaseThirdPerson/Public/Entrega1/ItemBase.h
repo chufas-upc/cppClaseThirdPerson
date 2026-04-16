@@ -3,10 +3,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/SphereComponent.h"
+#include "Entrega2/Interactable.h"
 #include "ItemBase.generated.h"
 
 UCLASS()
-class CPPCLASETHIRDPERSON_API AItemBase : public AActor
+class CPPCLASETHIRDPERSON_API AItemBase : public AActor, public IInteractable
 {
 	GENERATED_BODY()
 	
