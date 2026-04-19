@@ -11,6 +11,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "cppClaseThirdPerson.h"
+#include "Entrega2/ComponenteSalud.h"
 #include "Entrega2/Interactable.h"
 
 AcppClaseThirdPersonCharacter::AcppClaseThirdPersonCharacter()
@@ -49,6 +50,9 @@ AcppClaseThirdPersonCharacter::AcppClaseThirdPersonCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+	
+	//Components
+	ComponenteSalud = CreateDefaultSubobject<UComponenteSalud>(TEXT("Componente de Salud"));
 }
 
 void AcppClaseThirdPersonCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -75,6 +79,13 @@ void AcppClaseThirdPersonCharacter::SetupPlayerInputComponent(UInputComponent* P
 		UE_LOG(LogcppClaseThirdPerson, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
 	}
 }
+
+void AcppClaseThirdPersonCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	ComponenteSalud->OnActualizarSalud.AddDynamic(this, &AcppClaseThirdPersonCharacter::MostrarVida);
+	ComponenteSalud->OnMuerte.AddDynamic(this, &AcppClaseThirdPersonCharacter::ManejarMuerte);
+};
 
 void AcppClaseThirdPersonCharacter::Move(const FInputActionValue& Value)
 {
@@ -175,4 +186,14 @@ void AcppClaseThirdPersonCharacter::MostrarMensaje()
 			FColor::Orange,
 			"Ola");
 	}
-};
+}
+
+void AcppClaseThirdPersonCharacter::MostrarVida(float salud)
+{
+	UE_LOG(LogTemp, Log, TEXT("Mi nueva vida es: %f"), salud);
+}
+
+void AcppClaseThirdPersonCharacter::ManejarMuerte()
+{
+	UE_LOG(LogTemp, Log, TEXT("El jugador ha muerto"));
+}
