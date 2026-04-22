@@ -23,6 +23,8 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FString nick = "juan";
+	
+	APawn* Player;
 
 protected:
 	// Called when the game starts or when spawned

@@ -7,6 +7,8 @@
 #include "InputMappingContext.h"
 #include "Blueprint/UserWidget.h"
 #include "cppClaseThirdPerson.h"
+#include "Kismet/GameplayStatics.h"
+#include "Widget/HUD/CharacterHUD.h"
 #include "Widgets/Input/SVirtualJoystick.h"
 
 void AcppClaseThirdPersonPlayerController::BeginPlay()
@@ -30,6 +32,13 @@ void AcppClaseThirdPersonPlayerController::BeginPlay()
 
 		}
 
+	}
+	
+	if (CharacterHUDClass)
+	{
+		CharacterHUD = CreateWidget<UCharacterHUD>(this, CharacterHUDClass);
+		CharacterHUD->AddToPlayerScreen(0);
+		UE_LOG(LogTemp, Log, TEXT("Se ha creado el viewport"));
 	}
 }
 
@@ -58,4 +67,45 @@ void AcppClaseThirdPersonPlayerController::SetupInputComponent()
 			}
 		}
 	}
+}
+
+void AcppClaseThirdPersonPlayerController::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	TraceLine();
+}
+
+void AcppClaseThirdPersonPlayerController::TraceLine()
+{
+	if (!IsValid(GEngine) || !GEngine->GameViewport)
+		return;
+	
+	//Conseguir tamaño de la pantalla
+	FVector2D SizeViewport;
+	GEngine->GameViewport->GetViewportSize(SizeViewport);
+	
+	FVector2D CenterViewport = FVector2D(SizeViewport.X, SizeViewport.Y) * 0.5f;
+	
+	//Crear linea 
+	FVector TraceStart;
+	FVector TraceDirection;
+	
+	UGameplayStatics::DeprojectScreenToWorld(this, CenterViewport, TraceStart, TraceDirection);
+	
+	//Tracear en el mundo
+	FVector TraceEnd = TraceStart + TraceDirection * 400.0f;
+	
+	FHitResult HitResult;
+	GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, TraceChannel);
+	
+	//Ola
+	CurrentHitActor = HitResult.GetActor();
+	if (!CurrentHitActor.IsValid())
+		if (IsValid(CharacterHUD))
+			CharacterHUD->HideTextInfo();
+	
+	if (CurrentHitActor == LastHitActor) return;
+	
+	if (IsValid(CharacterHUD))
+		CharacterHUD->ShowItem("ola");
 }

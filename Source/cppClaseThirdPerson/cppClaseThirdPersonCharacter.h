@@ -7,6 +7,7 @@
 #include "Logging/LogMacros.h"
 #include "cppClaseThirdPersonCharacter.generated.h"
 
+class UComponenteSalud;
 class USpringArmComponent;
 class UCameraComponent;
 class UInputAction;
@@ -30,6 +31,9 @@ class AcppClaseThirdPersonCharacter : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UComponenteSalud> ComponenteSalud;
 	
 protected:
 
@@ -70,6 +74,7 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
+
 public:
 
 	/** Handles move inputs from either controls or UI interfaces */
@@ -89,13 +94,19 @@ public:
 	virtual void DoJumpEnd();
 	
 	/** Custom */
-	UFUNCTION(BlueprintImplementableEvent, Category="Input")
+	UFUNCTION(BlueprintCallable, Category="Input")
 	void Interact();
 	
 	UFUNCTION(BlueprintCallable, Category="Custom")
 	void MostrarMensaje();
+	
+	UFUNCTION(BlueprintCallable, Category="Custom")
+	void MostrarVida(float salud);
+	
+	UFUNCTION(BlueprintCallable, Category="Custom")
+	void ManejarMuerte();
 
-public:
+	virtual void BeginPlay() override;
 
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }

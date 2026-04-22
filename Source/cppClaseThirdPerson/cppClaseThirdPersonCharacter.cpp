@@ -11,6 +11,8 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "cppClaseThirdPerson.h"
+#include "Entrega2/ComponenteSalud.h"
+#include "Entrega2/Interactable.h"
 
 AcppClaseThirdPersonCharacter::AcppClaseThirdPersonCharacter()
 {
@@ -48,6 +50,9 @@ AcppClaseThirdPersonCharacter::AcppClaseThirdPersonCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+	
+	//Components
+	ComponenteSalud = CreateDefaultSubobject<UComponenteSalud>(TEXT("Componente de Salud"));
 }
 
 void AcppClaseThirdPersonCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -74,6 +79,13 @@ void AcppClaseThirdPersonCharacter::SetupPlayerInputComponent(UInputComponent* P
 		UE_LOG(LogcppClaseThirdPerson, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
 	}
 }
+
+void AcppClaseThirdPersonCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	ComponenteSalud->OnActualizarSalud.AddDynamic(this, &AcppClaseThirdPersonCharacter::MostrarVida);
+	ComponenteSalud->OnMuerte.AddDynamic(this, &AcppClaseThirdPersonCharacter::ManejarMuerte);
+};
 
 void AcppClaseThirdPersonCharacter::Move(const FInputActionValue& Value)
 {
@@ -135,6 +147,35 @@ void AcppClaseThirdPersonCharacter::DoJumpEnd()
 	StopJumping();
 }
 
+void AcppClaseThirdPersonCharacter::Interact()
+{
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Interact"));
+	}
+	
+	TArray<AActor*> ActorsOverlapping;
+	GetOverlappingActors(ActorsOverlapping, AActor::StaticClass());
+	
+	if (ActorsOverlapping.Num() > 0)
+	{
+		AActor* ActorTarget = ActorsOverlapping[0];
+		
+		if (ActorTarget && ActorTarget->GetClass()->ImplementsInterface(UInteractable::StaticClass())) 
+		{
+			IInteractable::Execute_Interact(ActorTarget, this);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Log, TEXT("El actor no implementa la interfaz o es nulo"));
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No hay actores solapados"));
+	}
+}
+
 void AcppClaseThirdPersonCharacter::MostrarMensaje()
 {
 	if (GEngine)
@@ -145,4 +186,14 @@ void AcppClaseThirdPersonCharacter::MostrarMensaje()
 			FColor::Orange,
 			"Ola");
 	}
-};
+}
+
+void AcppClaseThirdPersonCharacter::MostrarVida(float salud)
+{
+	UE_LOG(LogTemp, Log, TEXT("Mi nueva vida es: %f"), salud);
+}
+
+void AcppClaseThirdPersonCharacter::ManejarMuerte()
+{
+	UE_LOG(LogTemp, Log, TEXT("El jugador ha muerto"));
+}

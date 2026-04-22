@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "cppClaseThirdPersonPlayerController.generated.h"
 
+class UCharacterHUD;
 class UInputMappingContext;
 class UUserWidget;
 
@@ -34,6 +35,12 @@ protected:
 
 	/** Pointer to the mobile controls widget */
 	TObjectPtr<UUserWidget> MobileControlsWidget;
+	
+	UPROPERTY(EditAnywhere, Category="Interaction")
+	TSubclassOf<UCharacterHUD> CharacterHUDClass;
+	
+	UPROPERTY(EditAnywhere, Category="Interaction")
+	TObjectPtr<UCharacterHUD> CharacterHUD;
 
 	/** Gameplay initialization */
 	virtual void BeginPlay() override;
@@ -41,4 +48,13 @@ protected:
 	/** Input mapping context setup */
 	virtual void SetupInputComponent() override;
 
+	virtual void Tick( float DeltaSeconds ) override;
+	
+	void TraceLine();
+	
+	UPROPERTY(EditAnywhere, Category="Interaction")
+	TEnumAsByte<ECollisionChannel> TraceChannel;
+	
+	TWeakObjectPtr<AActor> CurrentHitActor;
+	TWeakObjectPtr<AActor> LastHitActor ;
 };
